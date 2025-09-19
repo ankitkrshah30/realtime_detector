@@ -1,8 +1,7 @@
 import pathway as pw
 import logging
+from pathway.xpacks.io.fs import FileProcessingMode
 
-# THE FIX: Add these two lines to set the log level.
-# This will hide the noisy INFO messages from the Pathway engine.
 logging.basicConfig(level=logging.WARNING)
 
 class LoginEvent(pw.Schema):
@@ -16,7 +15,7 @@ def run():
     login_stream = pw.io.csv.read(
         "./login_events.csv",
         schema=LoginEvent,
-        mode="streaming",
+        mode=FileProcessingMode(mode='streaming', file_watcher='POLLING'),
         autocommit_duration_ms=1000,
     )
 
